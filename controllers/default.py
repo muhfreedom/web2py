@@ -18,7 +18,7 @@ def create_survey():
     db.survey.uuid.default = uuid = web2py_uuid()
     form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
     if form.accepted:
-        time.sleep(5)
+        time.sleep(3)
         redirect(URL('create_survey2',args=uuid))
     return locals()
 
@@ -31,7 +31,7 @@ def create_survey2():
     db.survey.uuid.default = uuid = web2py_uuid()
     form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
     if form.accepted:
-        time.sleep(5)
+        time.sleep(3)
         redirect(URL('create_survey3',args=uuid))
     return locals()
 
@@ -44,7 +44,7 @@ def create_survey3():
     db.survey.uuid.default = uuid = web2py_uuid()
     form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
     if form.accepted:
-        time.sleep(5)
+        time.sleep(3)
         redirect(URL('thank_you',args=uuid))
     return locals()
 
