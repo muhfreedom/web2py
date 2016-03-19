@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+
+<h1>
+    {{=survey.name}}
+</h1>
+
+
+<div class="well">
+    <b>Password:</b> {{=survey.passchk_pass}}<br/>
+    <b>Entropy:</b> {{=survey.entropy}}<br />
+    
+</div>
