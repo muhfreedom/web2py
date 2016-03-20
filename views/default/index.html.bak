@@ -2,9 +2,9 @@
 
 {{if auth.user:}}
 {{=A('Skriv lösenord',_href=URL('create_survey'),_class="btn btn-primary")}}
-{{=grid}}
+
 {{else:}}
 <div class="well">
     Välkommen till Lösenordquizet. Logga in eller registrera dig för att delta HAIL SATAN!
-</p>
+</div>
 {{pass}}

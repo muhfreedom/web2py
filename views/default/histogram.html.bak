@@ -1,3 +1,21 @@
 {{extend 'layout.html'}}
-<h1>This is the default/histogram.html template</h1>
-{{=BEAUTIFY(response._vars)}}
+
+        <script type="text/javascript">
+
+            
+            var dataset = {{=XML(json(dataset))}};
+
+            //Width and height
+            var w = 600;
+            var h = 600;
+            ...
+
+            //Create SVG element
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            ...
+
+        </script>

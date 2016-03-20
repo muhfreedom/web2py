@@ -9,6 +9,18 @@ def index():
     return locals()
 
 
+
+import pygal
+from pygal.style import CleanStyle
+def plot_pygal():
+   response.headers['Content-Type']='image/svg+xml'
+   bar_chart = pygal.Bar(style=CleanStyle)                                            # Then create a bar graph object
+   bar_chart.add('Fibonacci', [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55])  # Add some values
+   return bar_chart.render()
+
+
+
+
 @auth.requires_login()
 def create_survey():
     def f(form):
@@ -18,7 +30,7 @@ def create_survey():
     db.survey.uuid.default = uuid = web2py_uuid()
     form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
     if form.accepted:
-        time.sleep(3)
+        time.sleep(4)
         redirect(URL('create_survey2',args=uuid))
     return locals()
 
@@ -31,7 +43,7 @@ def create_survey2():
     db.survey.uuid.default = uuid = web2py_uuid()
     form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
     if form.accepted:
-        time.sleep(3)
+        time.sleep(4)
         redirect(URL('create_survey3',args=uuid))
     return locals()
 
@@ -44,7 +56,7 @@ def create_survey3():
     db.survey.uuid.default = uuid = web2py_uuid()
     form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
     if form.accepted:
-        time.sleep(3)
+        time.sleep(4)
         redirect(URL('thank_you',args=uuid))
     return locals()
 

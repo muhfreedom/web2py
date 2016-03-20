@@ -22,7 +22,7 @@ var Frequency_Table = new Array();
 // and it means to copy X letters from the previous word.  A = 0, B = 1, etc.
 // So, if I had "apple apricot banana", it would compress to
 // "AappleCricotAbanana". 
-function Parse_Common_Word()
+function Parse_Common_Word3()
 {
    var i, c, word;
    
@@ -51,15 +51,15 @@ function Parse_Common_Word()
    Common_Words[Common_Words.length] = word;
 }
 
-function Parse_Common()
+function Parse_Common3()
 {
    for (var i = 0; i < 100 && Common_List.length > 0; i ++)
    {
-      Parse_Common_Word();
+      Parse_Common_Word3();
    }
    if (Common_List.length)
    {
-      window.setTimeout('Parse_Common()', 20);
+      window.setTimeout('Parse_Common3()', 20);
    }
    else
    {
@@ -75,7 +75,7 @@ function Parse_Common()
 // (non-alpha chars), then " a", " b", etc. " y", " z", "a ", "aa", "ab", and
 // so on.  If you decrypt the table successfully, you should see a really large
 // number for "qu".
-function Parse_Frequency_Token()
+function Parse_Frequency_Token3()
 {
    var c;
    
@@ -96,7 +96,7 @@ function Parse_Frequency()
 {
    for (var i = 0; i < 100 && Frequency_List.length > 0; i ++)
    {
-      Parse_Frequency_Token();
+      Parse_Frequency_Token3();
    }
    if (Frequency_List.length)
    {
@@ -109,7 +109,7 @@ function Parse_Frequency()
 }
 
 
-function Get_Index(c)
+function Get_Index3(c)
 {
    c = c.charAt(0).toLowerCase();
    if (c < 'a' || c > 'z')
@@ -120,7 +120,7 @@ function Get_Index(c)
 }
 
 
-function Get_Charset_Size(pass)
+function Get_Charset_Size3(pass)
 {
    var a = 0, u = 0, n = 0, ns = 0, r = 0, sp = 0, s = 0, chars = 0;
    
@@ -169,7 +169,7 @@ function Get_Charset_Size(pass)
 }
 
 
-function Set_Text(s)
+function Set_Text3(s)
 {
    var e;
    
@@ -178,7 +178,7 @@ function Set_Text(s)
       return;
    }
    
-   e = document.getElementById('passchk_result');
+   e = document.getElementById('passchk_result3');
    if (! e)
    {
       return;
@@ -193,24 +193,24 @@ function Set_Text(s)
 }
 
 
-var OldPass = -1;
-function ShowStats()
+var OldPass3 = -1;
+function ShowStats3()
 {
    var pass = document.passchk_form.passchk_pass.value;
    var plower = pass.toLowerCase();
    var r = "";
    
-   if (pass == OldPass)
+   if (pass == OldPass3)
    {
-      window.setTimeout('ShowStats();', 200);
+      window.setTimeout('ShowStats3();', 200);
       return;
    }
-   OldPass = pass;
+   OldPass3 = pass;
    
    if (pass.length == 0)
    {
-      Set_Text("");
-      window.setTimeout('ShowStats();', 200);
+      Set_Text3("");
+      window.setTimeout('ShowStats3();', 200);
       return;
    }
    
@@ -233,17 +233,18 @@ function ShowStats()
       }
    }
    
-   //r += "Length:  " + pass.length + "<br/>\n";
+   //Length
+	r +=  + pass.length + "\n";
    
    // Calculate frequency chance
    if (pass.length > 1)
    {
       var c, aidx = 0, bits = 0, charSet;
-      charSet = Math.log(Get_Charset_Size(pass)) / Math.log(2);
-      aidx = Get_Index(plower.charAt(0));
+      charSet = Math.log(Get_Charset_Size3(pass)) / Math.log(2);
+      aidx = Get_Index3(plower.charAt(0));
       for (var b = 1; b < plower.length; b ++)
       {
-	 var bidx = Get_Index(plower.charAt(b));
+	 var bidx = Get_Index3(plower.charAt(b));
 	 c = 1.0 - Frequency_Table[aidx * 27 + bidx];
 	 bits += charSet * c * c;  // Squared = assmume they are good guessers
 	 aidx = bidx;
@@ -279,18 +280,18 @@ function ShowStats()
          r += "";
 	 r += "";
       }
-      r +=  + (Math.round(bits * 10) / 10) + " bits\n";
-      //r += "Charset Size:  " + Get_Charset_Size(pass) + 
-         //" characters\n";
+      //r += "Entropy: " + (Math.round(bits * 10) / 10) + " bits\n";
+      //r += "Charset Size:  " + Get_Charset_Size3(pass) + 
+         " characters\n";
    }
    
-   Set_Text(r);
+   Set_Text3(r);
    
-   window.setTimeout('ShowStats();', 200);
+   window.setTimeout('ShowStats3();', 200);
 }
 
 
-function CheckIfLoaded()
+function CheckIfLoaded3()
 {
    var s = "";
    if (! document.Common_Loaded)
@@ -301,7 +302,7 @@ function CheckIfLoaded()
    {
       if (! document.Common_Parsed_Started)
       {
-         window.setTimeout('Parse_Common()', 50);
+         window.setTimeout('Parse_Common3()', 50);
 	 document.Common_Parsed_Started = 1;
       }
       s += "Parsing common passwords... " + 
@@ -323,18 +324,14 @@ function CheckIfLoaded()
    }
    if (s != "")
    {
-      Set_Text(s + "Loading ...");
-      window.setTimeout('CheckIfLoaded()', 200);
+      Set_Text3(s + "Loading ...");
+      window.setTimeout('CheckIfLoaded3()', 200);
       return;
    }
    
    // Loaded. Do initialization thingies.
-   Set_Text("Finished Loading.");
-   window.setTimeout('ShowStats();', 1000);
+   Set_Text3("Finished Loading.");
+   window.setTimeout('ShowStats3();', 1000);
 }
 
-window.setTimeout('CheckIfLoaded()', 100);
-
-
-
-
+window.setTimeout('CheckIfLoaded3()', 100);

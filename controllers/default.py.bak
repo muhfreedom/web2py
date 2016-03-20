@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 def index():
     #db.survey.description.readable=False
-    db.survey.choices.readable=False
+    #db.survey.choices.readable=False
     # db.survey.name.represent = lambda name,row: A(name,_href=URL('take_survey',args=row.uuid))
-    grid = SQLFORM.grid(db.survey.created_by==auth.user_id,create=False,editable=False,deletable=True,details=False,
-                       links=[lambda row: A('take',_href=URL('take_survey',args=row.uuid),_class="btn"),
-                              lambda row: A('results',_href=URL('see_results',args=row.uuid),_class="btn")])
+    #grid = SQLFORM.grid(db.survey.created_by==auth.user_id,create=False,editable=False,deletable=True,details=False,
+                       #links=[#lambda row: A('take',_href=URL('take_survey',args=row.uuid),_class="btn"),
+                             #lambda row: A('results',_href=URL('see_results',args=row.uuid),_class="btn")])
     return locals()
+
+
+
 
 
 @auth.requires_login()
@@ -14,12 +17,47 @@ def create_survey():
     def f(form):
         #form.vars.results = [0]*len(request.vars.choices)
         form.vars.results = request.vars.choices
-    from gluon.utils import web2py_uuid
+    from gluon.utils import web2py_uuid,time
     db.survey.uuid.default = uuid = web2py_uuid()
     form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
     if form.accepted:
+        time.sleep(3)
+        redirect(URL('create_survey2',args=uuid))
+    return locals()
+
+@auth.requires_login()
+def create_survey2():
+    def f(form):
+        #form.vars.results = [0]*len(request.vars.choices)
+        form.vars.results = request.vars.choices
+    from gluon.utils import web2py_uuid,time
+    db.survey.uuid.default = uuid = web2py_uuid()
+    form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
+    if form.accepted:
+        time.sleep(3)
+        redirect(URL('create_survey3',args=uuid))
+    return locals()
+
+@auth.requires_login()
+def create_survey3():
+    def f(form):
+        #form.vars.results = [0]*len(request.vars.choices)
+        form.vars.results = request.vars.choices
+    from gluon.utils import web2py_uuid,time
+    db.survey.uuid.default = uuid = web2py_uuid()
+    form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
+    if form.accepted:
+        time.sleep(3)
         redirect(URL('thank_you',args=uuid))
     return locals()
+
+@auth.requires_membership('managers')
+def manage():
+    grid = SQLFORM.grid(db.survey.created_by==auth.user_id,create=False,editable=False,deletable=True,details=False,
+                       links=[#lambda row: A('take',_href=URL('take_survey',args=row.uuid),_class="btn"),
+                              lambda row: A('results',_href=URL('see_results',args=row.uuid),_class="btn")])
+    return locals()
+
 
 @auth.requires_login()
 def take_survey():

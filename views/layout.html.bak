@@ -29,14 +29,11 @@
     <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
     <!-- Below is the JS-scripts from rumkin -->
     <script language="javascript" src="{{=URL('static','js/passchk.js')}}"></script>
+    <script language="javascript" src="{{=URL('static','js/passchk2.js')}}"></script>
+    <script language="javascript" src="{{=URL('static','js/passchk3.js')}}"></script>
     <script language="javascript" src="{{=URL('static','js/common.js')}}"></script>
     <script language="javascript" src="{{=URL('static','js/frequency.js')}}"></script>
-    <!-- lol solution -->
-    
-    <!-- lol solution -->
-    <!-- <script language="javascript" src="http://rumkin.com/tools/password/passchk.js"></script> -->
-    <!-- <script language="javascript" src="http://rumkin.com/tools/password/common.js"></script> -->
-    <!-- <script language="javascript" src="http://rumkin.com/tools/password/frequency.js"></script> -->
+
     <!-- End of rumkin JS-scripts -->
     <!--[if lt IE 9]>
         <script src="{{=URL('static','js/respond-1.4.2.min.js')}}"></script>
@@ -80,7 +77,7 @@
         </div>
       </div>
     </nav>
-    <!-- Masthead ===================================== -->    
+    <!-- Masthead ===================================== -->
     {{block header}}
     {{end}}
     <!-- Main ========================================= -->
@@ -112,7 +109,7 @@
 
     </div>
 
-    {{block footer}} <!-- this is default footer -->      
+    {{block footer}} <!-- this is default footer -->
     <footer class="footer">
       <div class="container-fluid">
         <div class="copyright pull-left">{{=T('Copyright')}} &#169; {{=request.now.year}}</div>
