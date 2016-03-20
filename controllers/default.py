@@ -31,34 +31,9 @@ def create_survey():
     form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
     if form.accepted:
         time.sleep(4)
-        redirect(URL('create_survey2',args=uuid))
-    return locals()
-
-@auth.requires_login()
-def create_survey2():
-    def f(form):
-        #form.vars.results = [0]*len(request.vars.choices)
-        form.vars.results = request.vars.choices
-    from gluon.utils import web2py_uuid,time
-    db.survey.uuid.default = uuid = web2py_uuid()
-    form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
-    if form.accepted:
-        time.sleep(4)
-        redirect(URL('create_survey3',args=uuid))
-    return locals()
-
-@auth.requires_login()
-def create_survey3():
-    def f(form):
-        #form.vars.results = [0]*len(request.vars.choices)
-        form.vars.results = request.vars.choices
-    from gluon.utils import web2py_uuid,time
-    db.survey.uuid.default = uuid = web2py_uuid()
-    form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
-    if form.accepted:
-        time.sleep(4)
         redirect(URL('thank_you',args=uuid))
     return locals()
+
 
 @auth.requires_membership('managers')
 def manage():

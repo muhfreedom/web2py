@@ -10968,3 +10968,91 @@ success!
 success!
 success!
 success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-03-20T20:28:17.646251
+ALTER TABLE survey ADD passchk_pass2 CHAR(512);
+timestamp: 2016-03-20T20:28:17.713820
+ALTER TABLE survey ADD passchk_pass3 CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-03-20T21:47:37.408977
+ALTER TABLE survey ADD entropy3 CHAR(512);
+timestamp: 2016-03-20T21:47:37.474346
+ALTER TABLE survey ADD lenght3 CHAR(512);
+timestamp: 2016-03-20T21:47:37.520814
+ALTER TABLE survey ADD lenght2 CHAR(512);
+timestamp: 2016-03-20T21:47:37.566148
+ALTER TABLE survey ADD entropy2 CHAR(512);
+timestamp: 2016-03-20T21:47:37.629761
+ALTER TABLE survey ADD charset2 CHAR(512);
+timestamp: 2016-03-20T21:47:37.709686
+ALTER TABLE survey ADD charset3 CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
