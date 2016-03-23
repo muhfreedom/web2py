@@ -8,30 +8,42 @@ def index():
                              #lambda row: A('results',_href=URL('see_results',args=row.uuid),_class="btn")])
     return locals()
 
-
-
+import pandas as pd
 import pygal
+import os
 from pygal.style import CleanStyle
-def plot_pygal():
-   response.headers['Content-Type']='image/svg+xml'
-   bar_chart = pygal.Bar(style=CleanStyle)                                            # Then create a bar graph object
-   bar_chart.add('Fibonacci', [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55])  # Add some values
-   return bar_chart.render()
+
+#csvpath = os.path.abspath("rows.csv")
+filename = "rows"
+
+def cvs_pygal():
+    response.headers['Content-Type']='image/svg+xml'
+    #budget = pd.read_csv('rows.csv')
+    #budget = pd.read_csv('/home/dolor/%(rows).csv' % os.environ)
+    budet = pd.read_csv('/home/dolor/' + filename + '.csv/')
+    budget = budget.sort('entropy',ascending=False)[:10]
+    bar_chart = pygal.Bar(style=LightStyle, width=800, height=600,legend_at_bottom=True, human_readable=True,title='MN Capital Budget - 2014')
+    for index, row in budget.iterrows():
+        bar_chart.add(row["entropy"], row["charset"])
+    return bar_chart.render()
 
 
 
 
 @auth.requires_login()
 def create_survey():
-    def f(form):
+    #def f(form):
         #form.vars.results = [0]*len(request.vars.choices)
-        form.vars.results = request.vars.choices
+        #form.vars.results = request.vars.choices
     from gluon.utils import web2py_uuid,time
     db.survey.uuid.default = uuid = web2py_uuid()
-    form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
+    #form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
+    form = SQLFORM(db.survey).process(session=None, formname='test')
     if form.accepted:
         time.sleep(4)
         redirect(URL('thank_you',args=uuid))
+    elif form.errors:
+        response.flash = 'Form errorz'
     return locals()
 
 

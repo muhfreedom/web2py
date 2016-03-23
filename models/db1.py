@@ -3,9 +3,9 @@
 
 db.define_table('survey',
                 #Field('name',requires=IS_NOT_EMPTY()),
-                Field('passchk_pass',requires=IS_NOT_EMPTY()),
-                Field('passchk_pass2',requires=IS_NOT_EMPTY()),
-                Field('passchk_pass3',requires=IS_NOT_EMPTY()),
+                Field('passchk_pass',requires=IS_MATCH('^[a-zA-Z]\w{8,}')),
+                Field('passchk_pass2',requires=IS_MATCH('^[a-zA-Z]\w{8,}')),
+                Field('passchk_pass3',requires=IS_MATCH('^[a-zA-Z]\w{8,}')),
                 Field('entropy',requires=IS_NOT_EMPTY()),
                 Field('charset',requires=IS_NOT_EMPTY()),
                 Field('lenght',requires=IS_NOT_EMPTY()),
