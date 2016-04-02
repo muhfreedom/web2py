@@ -67,6 +67,13 @@ def thank_you():
     return dict()
 
 def user():
+
+    if request.args(0) == 'register':
+        for field in ['last_name', 'email']:
+            db.auth_user[field].readable = db.auth_user[field].writable = False
+    return dict(form=auth())
+
+
     """
     exposes:
     http://..../[app]/default/user/login

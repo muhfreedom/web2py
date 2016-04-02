@@ -5,7 +5,7 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('Surveys'),XML('&trade;&nbsp;'),
+response.logo = A(B('Logga'),XML('&trade;&nbsp;'),
                   _class="navbar-brand",_href="http://www.web2py.com/",
                   _id="web2py-logo")
 response.title = request.application.replace('_',' ').title()
@@ -25,7 +25,7 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
-    (T('My Surveys'), False, URL('default', 'index'), [])
+    (T('LösenordQuiz'), False, URL('default', 'index'), [])
 
 ]
 if auth.has_membership('managers'):
