@@ -8,48 +8,22 @@ def index():
                              #lambda row: A('results',_href=URL('see_results',args=row.uuid),_class="btn")])
     return locals()
 
-
-
-
-
 @auth.requires_login()
 def create_survey():
-    def f(form):
+    #def f(form):
         #form.vars.results = [0]*len(request.vars.choices)
-        form.vars.results = request.vars.choices
+        #form.vars.results = request.vars.choices
     from gluon.utils import web2py_uuid,time
     db.survey.uuid.default = uuid = web2py_uuid()
-    form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
+    #form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
+    form = SQLFORM(db.survey).process(session=None, formname='test')
     if form.accepted:
-        time.sleep(3)
-        redirect(URL('create_survey2',args=uuid))
-    return locals()
-
-@auth.requires_login()
-def create_survey2():
-    def f(form):
-        #form.vars.results = [0]*len(request.vars.choices)
-        form.vars.results = request.vars.choices
-    from gluon.utils import web2py_uuid,time
-    db.survey.uuid.default = uuid = web2py_uuid()
-    form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
-    if form.accepted:
-        time.sleep(3)
-        redirect(URL('create_survey3',args=uuid))
-    return locals()
-
-@auth.requires_login()
-def create_survey3():
-    def f(form):
-        #form.vars.results = [0]*len(request.vars.choices)
-        form.vars.results = request.vars.choices
-    from gluon.utils import web2py_uuid,time
-    db.survey.uuid.default = uuid = web2py_uuid()
-    form = SQLFORM(db.survey).process(session=None, formname='test',onvalidation=f)
-    if form.accepted:
-        time.sleep(3)
+        time.sleep(4)
         redirect(URL('thank_you',args=uuid))
+    elif form.errors:
+        response.flash = 'Form errorz'
     return locals()
+
 
 @auth.requires_membership('managers')
 def manage():
@@ -93,6 +67,13 @@ def thank_you():
     return dict()
 
 def user():
+
+    if request.args(0) == 'register':
+        for field in ['last_name', 'email']:
+            db.auth_user[field].readable = db.auth_user[field].writable = False
+    return dict(form=auth())
+
+
     """
     exposes:
     http://..../[app]/default/user/login

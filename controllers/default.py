@@ -69,7 +69,7 @@ def thank_you():
 def user():
 
     if request.args(0) == 'register':
-        for field in ['last_name', 'email']:
+        for field in ['first_name','last_name', 'email']:
             db.auth_user[field].readable = db.auth_user[field].writable = False
     return dict(form=auth())
 

@@ -369,3 +369,5 @@
 [2016-03-19 22:52:23] EDIT Quiz1/views/default/form_and_chart.html: 0
 [2016-03-20 00:09:57] EDIT Quiz1/views/layout.html: 0
 [2016-03-20 01:30:33] DELETE Quiz1/views/default/form_and_chart.html: -3
+[2016-04-02 21:50:35] EDIT quiz3/controllers/default.py: 0
+[2016-04-02 21:53:23] EDIT quiz3/controllers/default.py: 0
