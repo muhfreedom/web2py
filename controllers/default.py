@@ -8,28 +8,6 @@ def index():
                              #lambda row: A('results',_href=URL('see_results',args=row.uuid),_class="btn")])
     return locals()
 
-import pandas as pd
-import pygal
-import os
-from pygal.style import CleanStyle
-
-#csvpath = os.path.abspath("rows.csv")
-filename = "rows"
-
-def cvs_pygal():
-    response.headers['Content-Type']='image/svg+xml'
-    #budget = pd.read_csv('rows.csv')
-    #budget = pd.read_csv('/home/dolor/%(rows).csv' % os.environ)
-    budet = pd.read_csv('/home/dolor/' + filename + '.csv/')
-    budget = budget.sort('entropy',ascending=False)[:10]
-    bar_chart = pygal.Bar(style=LightStyle, width=800, height=600,legend_at_bottom=True, human_readable=True,title='MN Capital Budget - 2014')
-    for index, row in budget.iterrows():
-        bar_chart.add(row["entropy"], row["charset"])
-    return bar_chart.render()
-
-
-
-
 @auth.requires_login()
 def create_survey():
     #def f(form):
