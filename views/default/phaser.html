@@ -1,147 +1,246 @@
 {{extend 'layout.html'}}
 
 <script type="text/javascript">
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+//  10 x 8
+//var game = new Phaser.Game(320, 256, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(320*2, 256*2, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
 
-    game.load.image('sky', '{{=URL('static','images/assets/sky.png')}}');
-    game.load.image('ground', '{{=URL('static','images/assets/ground.png')}}');
-    game.load.image('star', '{{=URL('static','images/assets/star.png')}}');
-    game.load.spritesheet('dude', '{{=URL('static','images/assets/dude.png')}}', 32, 48);
+    game.load.image('knightHawks', '{{=URL('static','images/demoscene/knighthawks.png')}}');
+    // game.load.image('knightHawks', 'assets/fonts/retroFonts/knighthawks_font.png');
+    // game.load.image('knightHawks', 'assets/fonts/retroFonts/KNIGHT3.png');
+    game.load.image('raster', '{{=URL('static','images/demoscene/sunset-raster.png')}}');
+    // game.load.image('raster', 'assets/demoscene/multi-color-raster.png');
 
 }
 
-var player;
-var platforms;
-var cursors;
+var font;
+var letters = [];
+var pos = [];
 
-var stars;
-var score = 0;
-var scoreText;
+var data;
+var scale = 2;
+var page = -1;
+
+var bfont;
+var alpha;
+var mask = new Phaser.Rectangle();
+
+var scroller = [
+                "----------",
+                "- CAMILO -",
+                "----------",
+                "- IS A   -",
+                "- HUGE   -",
+                "- FUCKING-",
+                "- FAG!   -",
+                "----------",
+
+                "THIS IS   ",
+                "  PHOTON  ",
+                "  STORM   ",
+                " BRINGING ",
+                " YOU HIS  ",
+                "TEXTWRITER",
+                "EFFECT IN ",
+                "PHASER ...",
+
+                "I WONDER  ",
+                "  IF THIS ",
+                "  WILL    ",
+                "   WORK   ",
+                " PROPERLY ",
+                "OR IF THE ",
+                "STRANGE   ",
+                "BUGSSSS   ",
+                ];
 
 function create() {
 
-    //  We're going to be using physics, so enable the Arcade Physics system
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    // makeRasterFont();
 
-    //  A simple background for our game
-    game.add.sprite(0, 0, 'sky');
+    // font = game.add.retroFont('knightHawks', 31, 25, Phaser.RetroFont.TEXT_SET6 + "*", 10, 1, 1);
+    font = game.add.retroFont('knightHawks', 31, 25, Phaser.RetroFont.TEXT_SET2, 10, 1, 0);
 
-    //  The platforms group contains the ground and the 2 ledges we can jump on
-    platforms = game.add.group();
+    //  There can only be 80 letters on-screen at once (10x8) so generate them all now
 
-    //  We will enable physics for any object that is created in this group
-    platforms.enableBody = true;
+    //  Scale 1:1
+    var x = 0;
+    var y = 0;
+    // var scale = 1;
+    // var tx = 32;
+    // var ty = 32;
+    // var hx = 16;
+    // var hy = 16;
 
-    // Here we create the ground.
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
+    //  Scale 2:1
+    scale = 2;
+    var tx = 64;
+    var ty = 64;
+    var hx = 32;
+    var hy = 32;
 
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(2, 2);
+    game.stage.smoothed = false;
 
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-
-    //  Now let's create two ledges
-    var ledge = platforms.create(400, 400, 'ground');
-    ledge.body.immovable = true;
-
-    ledge = platforms.create(-150, 250, 'ground');
-    ledge.body.immovable = true;
-
-    // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
-
-    //  We need to enable physics on the player
-    game.physics.arcade.enable(player);
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
-    player.body.collideWorldBounds = true;
-
-    //  Our two animations, walking left and right.
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
-
-    //  Finally some stars to collect
-    stars = game.add.group();
-
-    //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;
-
-    //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 12; i++)
+    //  In reverse so they overlap in the correct order
+    for (var i = 0; i < 80; i++)
     {
-        //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
+        //  For some reason using a BMD here doesn't allow us to share the texture - need to investigate why
 
-        //  Let gravity do its thing
-        star.body.gravity.y = 300;
+        var letter = game.add.sprite(game.world.centerX, game.world.centerY, 'knightHawks');
 
-        //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+/*
+// the various blend modes supported by pixi
+PIXI.blendModes = {
+    NORMAL:0,
+    ADD:1,
+    MULTIPLY:2,
+    SCREEN:3,
+    OVERLAY:4,
+    DARKEN:5,
+    LIGHTEN:6,
+    COLOR_DODGE:7,
+    COLOR_BURN:8,
+    HARD_LIGHT:9,
+    SOFT_LIGHT:10,
+    DIFFERENCE:11,
+    EXCLUSION:12,
+    HUE:13,
+    SATURATION:14,
+    COLOR:15,
+    LUMINOSITY:16
+};
+ */
+
+        // letter.blendMode = PIXI.blendModes.OVERLAY;
+        letter.scale.set(0);
+        letter.anchor.set(0.5);
+        letter.animations.loadFrameData(font.frameData, 48);
+        this.world.sendToBack(letter);
+
+        letters.push(letter);
+        pos.push( { x: x + hx, y: y + hy } ); // add 16 because of the anchor
+
+        x += tx;
+
+        if (x === game.width)
+        {
+            x = 0;
+            y += ty;
+        }
     }
 
-    //  The score
-    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    var raster = game.add.sprite(0, 0, 'raster');
+    raster.width = game.width;
+    raster.height = game.height;
+    raster.blendMode = PIXI.blendModes.COLOR;
 
-    //  Our controls.
-    cursors = game.input.keyboard.createCursorKeys();
+    // this.world.sendToBack(raster);
+
+    bringIn();
+
+}
+
+function setLetters() {
+
+    page++;
+
+    if (page === 3)
+    {
+        page = 0;
+    }
+
+    var i = 0;
+
+    for (var y = 0; y < 8; y++)
+    {
+        for (var x = 0; x < 10; x++)
+        {
+            letters[i].frame = font.grabData[scroller[(page * 8) + y].charCodeAt(x)];
+            i++;
+        }
+    }
+
+}
+
+function bringIn() {
+
+    setLetters();
+
+    var delay = 0;
+    var speed = 300;
+
+    for (var i = 0; i < 80; i++)
+    {
+        if (page % 2 === 1)
+        {
+            game.add.tween(letters[i].position).to( { x: pos[i].x, y: pos[i].y }, speed, Phaser.Easing.Back.Out, true, delay);
+            game.add.tween(letters[i].scale).to( { x: scale, y: scale }, speed, Phaser.Easing.Back.Out, true, delay);
+        }
+        else
+        {
+            game.add.tween(letters[i].position).to( { x: pos[i].x, y: pos[i].y }, speed, Phaser.Easing.Sinusoidal.Out, true, delay);
+            game.add.tween(letters[i].scale).to( { x: scale, y: scale }, speed, Phaser.Easing.Sinusoidal.Out, true, delay);
+        }
+
+        delay += 100;
+    }
+
+    game.time.events.add(delay + 2000, takeAway, this);
+
+}
+
+function takeAway() {
+
+    var delay = 0;
+    var speed = 200;
+
+    for (var i = 79; i >= 0; i--)
+    {
+        game.add.tween(letters[i].position).to( { x: game.world.centerX, y: game.world.centerY }, speed, Phaser.Easing.Sinusoidal.Out, true, delay);
+        game.add.tween(letters[i].scale).to( { x: 0, y: 0 }, speed, Phaser.Easing.Sinusoidal.Out, true, delay);
+        delay += 50;
+    }
+
+    game.time.events.add(delay + 200, bringIn, this);
 
 }
 
 function update() {
 
-    //  Collide the player and the stars with the platforms
-    game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(stars, platforms);
+    game.context.clearRect(0, 0, game.width, game.height);
 
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    game.physics.arcade.overlap(player, stars, collectStar, null, this);
-
-    //  Reset the players velocity (movement)
-    player.body.velocity.x = 0;
-
-    if (cursors.left.isDown)
-    {
-        //  Move to the left
-        player.body.velocity.x = -150;
-
-        player.animations.play('left');
-    }
-    else if (cursors.right.isDown)
-    {
-        //  Move to the right
-        player.body.velocity.x = 150;
-
-        player.animations.play('right');
-    }
-    else
-    {
-        //  Stand still
-        player.animations.stop();
-
-        player.frame = 4;
-    }
-
-    //  Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down)
-    {
-        player.body.velocity.y = -350;
-    }
+    // raster.cls();
+    // raster.alphaMask('raster', alpha, mask);
+    // bfont.draw(raster);
 
 }
 
-function collectStar (player, star) {
+function makeRasterFont() {
 
-    // Removes the star from the screen
-    star.kill();
+    bfont = game.make.bitmapData();
+    alpha = game.make.bitmapData();
+    raster = game.make.bitmapData();
 
-    //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
+    //  Load the font
+    bfont.load('knightHawks');
+
+    //  Extract all the pink pixels into the alpha bmd
+    bfont.extract(alpha, 237, 0, 140, 255, true);
+
+    raster.resize(bfont.width, bfont.height);
+
+    //  Display the 4 stages of the process
+    // game.add.image(0, 0, 'knightHawks');
+    // game.add.image(360, 0, alpha);
+    // game.add.image(0, 200, raster);
+    // game.add.image(360, 200, bfont);
+
+    //  Tween the rasters
+    mask.setTo(0, 0, bfont.width, game.cache.getImage('raster').height);
+
+    game.add.tween(mask).to( { y: -(mask.height - bfont.height) }, 4000, Phaser.Easing.Sinusoidal.InOut, true, 0, 100, true);
 
 }
 

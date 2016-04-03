@@ -1,0 +1,53 @@
+{{extend 'layout.html'}}
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, render: render });
+
+var text;
+
+function preload()
+{
+
+    game.load.image('bg', '{{=URL('static','images/skies/deepblue.png')}}');
+    game.load.bitmapFont('nokia16black', '{{=URL('static','images/fonts/bitmapFonts/nokia16black.png')}}','{{=URL('static','images/fonts/bitmapFonts/nokia16black.xml')}}');
+}
+
+var bmpText;
+
+function create()
+{
+
+    //Add baground
+    game.add.image(0, 0, 'bg');
+
+    //Text info about the game
+    var text = "Testa lösenorden 1-3 i lösenordstestaren genom att,\n kopiera in dem med ctrl+c,\n Klicka på testa därefter,\n Du får testa så många gånger du vill, men minst en gång, \n innan du får välja mellan lösenorden.";
+    var style = { font: "19px Arial", fill: "#ffffff", align: "left"};
+    var t = game.add.text(game.world.centerX-350,122, text, style);
+
+    //Drag&drop passwords, need to implement a random function
+    bmpText = game.add.bitmapText(32, 280, 'nokia16black', 'Drag me around please!', 19);
+    bmpText.inputEnabled = true;
+    bmpText.input.enableDrag();
+
+    var bar = game.add.graphics();
+    bar.beginFill(0x000000, 0.2);
+    bar.drawRect(0, 0, 800, 100);
+
+    var style = {font: "bold 32px Arial", fill: "#ffffff", boundsAlignH: "center",
+    boundsAlignV: "middle"};
+
+    //The text is positioned at 0, 100
+    text = game.add.text(0,0, "This shit will fuck you up!", style);
+    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    //set the bounds to be from x0, y100 and be 800px wide by 100px high
+    text.setTextBounds(0, 0, 800, 100);
+
+}
+
+function render() {
+
+}
+
+</script>

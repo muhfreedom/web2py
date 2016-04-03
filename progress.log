@@ -432,3 +432,9 @@
 [2016-04-03 04:04:20] EDIT quiz3/views/default/pixi.html: 0
 [2016-04-03 04:05:26] EDIT quiz3/views/default/pixi.html: -1
 [2016-04-03 04:05:54] EDIT quiz3/views/default/phaser.html: 0
+[2016-04-03 15:15:54] CREATE default/phaser2.html: 0
+[2016-04-03 16:35:13] EDIT quiz3/controllers/default.py: 6
+[2016-04-03 16:35:18] EDIT quiz3/controllers/default.py: -1
+[2016-04-03 16:35:37] EDIT quiz3/controllers/default.py: 1
+[2016-04-03 16:36:03] EDIT quiz3/controllers/default.py: -6
+[2016-04-03 16:36:10] EDIT quiz3/views/default/phaser.html: -1

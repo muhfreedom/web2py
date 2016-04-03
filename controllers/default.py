@@ -71,8 +71,11 @@ def thank_you():
     return dict()
 
 #Phaser.js
+def phaser2():
+    return locals()
 def phaser():
     return locals()
+
 
 #Pixi.js
 def pixi():
