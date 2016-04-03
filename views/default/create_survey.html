@@ -1,11 +1,14 @@
 {{extend 'layout.html'}}
-
-<form action="#" enctype="multipart/form-data" method="post" name="passchk_form">
 <div class="well">
-<ul>
-  <li>Your password <input type="password" class="form-control password entropy_check" name="passchk_pass"  /></li>
-  <li>Your password <input type ="password" class="form-control password entropy_check" name="passchk_pass2" /></li>
-  <li>Your password <input type="password" class="form-control password entropy_check" name="passchk_pass3" /></li>
+<div class="container">
+        <div class="row">
+                    <div id="web2py_user_form" class="col-lg-6">
+<form action="#" enctype="multipart/form-data" method="post" name="passchk_form">
+
+
+ Skriv in 3 olika lösenord nedan:<input type="password" class="form-control password entropy_check" name="passchk_pass"/>
+ <br/><input type ="password" class="form-control password entropy_check" name="passchk_pass2" />
+ <br/><input type="password" class="form-control password entropy_check" name="passchk_pass3" />
 
   <!--<li><span id="passchk_result">Loading ...</span></li>-->
   <!-- <textarea class="text form-control" cols="40" id="passchk_result" name="entropy" rows="10" style="display:none"></textarea>-->
@@ -21,9 +24,11 @@
   <textarea class="text form-control" cols="5" id="passchk_result7" name="entropy3" rows="2" style="display:none;" ></textarea>
   <textarea class="text form-control" cols="5" id="passchk_result8" name="charset3" rows="2" style="display:none;" ></textarea>
   <textarea class="text form-control" cols="5" id="passchk_result9" name="lenght3" rows="2" style="display:none;" ></textarea>
-</ul>
-</div>
-  <input type="submit" />
-  <input type="hidden" name="_formname" value="test" />
 
+  <input type="submit" value="Skicka" />
+  <input type="hidden" name="_formname" value="test" />
 </form>
+</div>
+</div>
+</div>
+</div>

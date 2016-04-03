@@ -4,7 +4,7 @@ def index():
     #db.survey.choices.readable=False
     # db.survey.name.represent = lambda name,row: A(name,_href=URL('take_survey',args=row.uuid))
     #grid = SQLFORM.grid(db.survey.created_by==auth.user_id,create=False,editable=False,deletable=True,details=False,
-                       #links=[#lambda row: A('take',_href=URL('take_survey',args=row.uuid),_class="btn"),
+                      #links=[#lambda row: A('take',_href=URL('take_survey',args=row.uuid),_class="btn"),
                              #lambda row: A('results',_href=URL('see_results',args=row.uuid),_class="btn")])
     return locals()
 
@@ -27,7 +27,10 @@ def create_survey():
 
 @auth.requires_membership('managers')
 def manage():
-    grid = SQLFORM.grid(db.survey.created_by==auth.user_id,create=False,editable=False,deletable=True,details=False,
+    #See results from everyone
+    grid = SQLFORM.grid(db.survey,create=False,editable=False,deletable=True,details=False,
+    #See results only from logged in user, aka admin because requires membership
+    #grid = SQLFORM.grid(db.survey.created_by==auth.user_id,create=False,editable=False,deletable=True,details=False,
                        links=[#lambda row: A('take',_href=URL('take_survey',args=row.uuid),_class="btn"),
                               lambda row: A('results',_href=URL('see_results',args=row.uuid),_class="btn")])
     return locals()
@@ -54,7 +57,8 @@ def take_survey():
         redirect(URL('thank_you'))
     return locals()
 
-@auth.requires_login()
+#@auth.requires_login()
+@auth.requires_membership('managers')
 def see_results():
     uuid = request.args(0)
     survey = db.survey(uuid=uuid)
