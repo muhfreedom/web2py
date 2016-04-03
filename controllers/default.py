@@ -70,6 +70,14 @@ def see_results():
 def thank_you():
     return dict()
 
+#Phaser.js
+def phaser():
+    return locals()
+
+#Pixi.js
+def pixi():
+    return locals()
+
 def user():
 
     if request.args(0) == 'register':
