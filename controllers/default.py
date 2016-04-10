@@ -76,10 +76,19 @@ def phaser2():
 def phaser():
     return locals()
 
-
-#Pixi.js
-def pixi():
+def phaser3():
     return locals()
+
+def phaser4():
+    return locals()
+
+def phaser5():
+    return locals()
+
+def phaser6():
+    return locals()
+
+
 
 def user():
 
